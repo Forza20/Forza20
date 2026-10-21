@@ -17,6 +17,7 @@ I turn business data into models people trust and reports people actually use. I
 | [AdventureWorks Sales Report](https://github.com/Forza20/power-bi-adventureworks-report) | Executive dashboard with drill-downs, what-if parameters and AI visuals |
 | [Data Runner](https://forza20.github.io/data-runner/) | Browser game: answer SQL, Power BI and DAX questions to jump over obstacles |
 | [From raw data to value](https://github.com/Forza20/promo-video) | 10-second video about data modelling, animated in code with Remotion |
+| [Claude skills for Power BI](https://github.com/Forza20/claude-powerbi-skills) | Six Claude skills for DAX audits, PBIP governance, data modelling and report design (in Danish) |
 
 ## Toolbox
 
