@@ -6,7 +6,7 @@ I turn business data into models people trust and reports people actually use. I
 
 🟢 **Open to new roles and freelance projects.**
 
-[Website](https://forza20.github.io/) · [Download CV](https://forza20.github.io/CV.pdf) · [LinkedIn](https://www.linkedin.com/in/peter-bekker-4a25744/) · [Get in touch](https://forza20.github.io/#contact)
+[Website](https://forza20.github.io/) · CV: [English](https://forza20.github.io/CV-EN.pdf) / [Danish](https://forza20.github.io/CV.pdf) · [LinkedIn](https://www.linkedin.com/in/peter-bekker-4a25744/) · [Get in touch](https://forza20.github.io/#contact)
 
 ## Featured work
 
