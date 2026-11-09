@@ -1,0 +1,14 @@
+{
+  "enabledPlugins": {
+    "cache-clock@claude-tips-mods": true,
+    "handoff@claude-tips-mods": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-tips-mods": {
+      "source": {
+        "source": "directory",
+        "path": "./.claude/mods"
+      }
+    }
+  }
+}
