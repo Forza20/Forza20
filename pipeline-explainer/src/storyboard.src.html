@@ -1,0 +1,118 @@
+<title>Pipeline Explainer Storyboard</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=block">
+<style>
+  /* Layout: storyboard grid of 16:9 key frames, each with a spec sheet underneath. Single dark look, matching the medium. */
+  :root {
+    --bg: #05061c; --panel: #0d1038; --line: rgba(130, 150, 255, 0.22); --fg: #e8ecff; --muted: #9aa3d8;
+    --cyan: #3fe3ff; --violet: #9a78ff; --green: #3cf0b4; --amber: #ffb547;
+    --head: "Space Grotesk", "Segoe UI", system-ui, sans-serif; --body: "Inter", "Segoe UI", system-ui, sans-serif;
+    color-scheme: dark;
+  }
+  html, body { background: var(--bg); color: var(--fg); }
+  body { font-family: var(--body); font-size: 15px; line-height: 1.5; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 32px 64px; }
+  .wrap { max-width: 1320px; margin: 0 auto; display: grid; gap: 32px; }
+  header { display: grid; gap: 8px; }
+  .eyebrow { font: 600 12px/1 var(--body); letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+  h1 { font: 700 clamp(28px, 4vw, 44px)/1.1 var(--head); margin: 0; text-wrap: balance;
+       background: linear-gradient(90deg, #fff, #c8f4ff 40%, #7fdcff 70%, #9a78ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 0; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; color: var(--fg); background: rgba(20, 24, 70, 0.6); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)); gap: 24px; }
+  .beat { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; display: grid; align-content: start; min-width: 0; }
+  .beat canvas { width: 100%; height: auto; aspect-ratio: 16 / 9; display: block; background: #03041a; max-width: 100%; }
+  .spec { padding: 16px 18px 18px; display: grid; gap: 10px; min-width: 0; }
+  .spec .top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .num { font: 700 22px/1 var(--head); color: var(--cyan); }
+  .name { font: 700 17px/1.2 var(--head); }
+  .time { margin-left: auto; font: 500 13px/1 var(--body); color: var(--muted); font-variant-numeric: tabular-nums; }
+  dl { margin: 0; display: grid; gap: 8px; }
+  dt { font: 600 11px/1 var(--body); letter-spacing: 0.14em; text-transform: uppercase; color: var(--violet); }
+  dd { margin: 2px 0 0; color: #d3d8f6; }
+  dd q { color: #fff; quotes: "“" "”"; }
+  .flow-cut dt { color: var(--amber); }
+  section.notes { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: grid; gap: 10px; }
+  section.notes h2 { font: 700 20px/1.2 var(--head); margin: 0; }
+  section.notes ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: #d3d8f6; max-width: 90ch; }
+  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; color: var(--green); }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Storyboard · Tech Glow Explainer</div>
+    <h1>/pipeline-power-bi: messy files to Power BI</h1>
+    <p class="lede">A 20-second social video showing the workflow of the <code>pipeline-power-bi</code> skill: profile the files, clean them table by table, design a star schema, hand off to pbip-layout, pbip-catalog and pbip-governance, and how long a run takes. Each panel below is a key frame drawn by the same code the animation will use.</p>
+    <div class="meta"><span class="chip">1280×720 · 20 s</span><span class="chip">7 beats</span><span class="chip">English · no voiceover</span><span class="chip">one continuous camera, 3 camera moves</span></div>
+  </header>
+  <div class="grid" id="grid"></div>
+  <section class="notes">
+    <h2>Facts and numbers I assumed</h2>
+    <ul>
+      <li><b>Run time:</b> ≈ 8 min (fast), 10–12 min (quick), 20–30 min (full) come from the README's own estimate table. The video leaves out the extra 10–20 min for a first-time install and ≈ 5 min for the refresh and <code>checks.dax</code> in Power BI Desktop. The hero number is the fast run.</li>
+      <li><b>Table rows</b> are real rows from <code>demo/orders.csv</code>. The cleaned values are shown in an en-US format (<code>2025-01-03</code>, <code>1,234.50</code>). In a real run the display depends on the culture you pick in step 3.</li>
+      <li><b>Cleaning steps</b> use the real fix codes from <code>fix-catalog.md</code> (F08, F11, F09, F12, F04). The order they switch on in is chosen for the story. The skill proposes them table by table.</li>
+      <li><b>Star schema:</b> a Sales fact with Customer, Date and Channel dimensions is illustrative. Channel stands for the demo's 10/20/30 code column (F28). Your real model can differ.</li>
+      <li><b>Stage rail</b> “Profile · Clean · Model · Extras” compresses the skill's steps 2–6 into 4 labels.</li>
+      <li><b>Hand-over</b> shows 3 of the outputs (the PBIP project, <code>overview.html</code> and <code>checks.dax</code>). The real hand-over also lists the cleaning log, expected values, model health and more.</li>
+      <li><b>Title</b> “Messy files to Power BI” and takeaway “Messy files → clean report” are my wording. Tell me if you want different copy.</li>
+    </ul>
+  </section>
+</div>
+
+<script>/*@@LIBS@@*/</script>
+<script>
+const BEATS = [
+  { t: 1.1, n: 1, name: 'Hook', span: '0.0 – 2.0 s',
+    text: '“/PIPELINE-POWER-BI” · “Messy files to Power BI”',
+    flow: 'Opens from the glowing grid. The funnel tile pops in with an overshoot and its icon draws on, and the headline rises word by word.',
+    sound: 'soft whoosh, glassy pop on the tile (0.36 s), second whoosh under the title; low pad starts.' },
+  { t: 3.9, n: 2, name: 'Profile every file', span: '2.0 – 4.85 s',
+    text: '“CSV” · “Excel” · “.pbip” · “pipeline-power-bi” · stage chips “Profile · Clean · Model · Extras” · red value pills “N/A”, “03-01-2025”, “K002”, “1.234,50”, “I alt”',
+    flow: 'Continuous: the title shrinks into the corner header while the funnel flies right. The three source tiles pop in on the left and lanes trace to the funnel. The stage rail lands with Profile lit, and messy values ride the lanes into the funnel.',
+    sound: 'three rising glass taps for the sources, lane whoosh, four soft chip ticks, a low muted note each time a messy value is swallowed.' },
+  { t: 5.2, n: '2→3', name: 'Push through the pipeline', span: '4.85 – 5.45 s',
+    text: '(no new text; the rail switches to Clean)',
+    flow: 'Camera move, the style\'s own scene change: the camera pushes into the funnel with light-speed streaks and a bloom flash. The reason: we now go inside the skill.',
+    sound: 'long whoosh rising into a low thump on the flash (5.26 s).' },
+  { t: 7.0, n: 3, name: 'Clean, table by table', span: '5.15 – 8.35 s',
+    text: '“ORDERS.CSV” (Dato · KundeID · Beløb) · “CLEANING STEPS”: “F08 Parse dates”, “F11 One id format”, “F09 Parse numbers”, “F12 Remove duplicates”, “F04 Remove total rows” · “You switch each step on or off”',
+    flow: 'Continuous: two cards grow out of the flash. Each toggle switches on (6.1, 6.5, 6.9, 7.3, 7.7 s) and sends a green pulse into the table. Red values roll over to clean values, and the duplicate row and the “I alt” total row get struck through and collapse.',
+    sound: 'a switch click per toggle, a small upward glide, then a glass note climbing C-D-E-G-A as each value resolves; swishes on the two strike-throughs.' },
+  { t: 10.2, n: 4, name: 'Star schema', span: '8.35 – 10.9 s',
+    text: '“STAR SCHEMA” · “Sales / fact table” · “Customer” · “Channel” · “Date”',
+    flow: 'Continuous: the cleaning card slides away, and the orders table card morphs down into the Sales fact card. Three dimension tiles pop around it, and relationships trace in and start carrying pulses. The rail moves to Model.',
+    sound: 'whoosh on the morph, glass hit as “Sales” lands, three glass pops for the dimensions, soft glides as relationships trace.' },
+  { t: 13.5, n: 5, name: 'Hand-off to the other skills', span: '10.9 – 13.75 s',
+    text: '“pbip-layout / Dashboard pages” · “pbip-catalog / Catalog + lineage” · “pbip-governance / PII · RLS · wiki” · “HAND-OVER”: “PBIP project”, “overview.html”, “checks.dax”',
+    flow: 'Continuous: the star shrinks to the left, and connectors fan out from it to three skill tiles that pop in with their names. Their outputs flow into the hand-over card, where items tick in. All four stage chips turn green.',
+    sound: 'whoosh as the star shrinks, three glass pops for the skills, ascending glass ticks for the hand-over items, and a bright two-note success chime when everything is done (13.3 s).' },
+  { t: 15.95, n: 6, name: 'How long it takes (key number)', span: '13.75 – 16.9 s',
+    text: '“RUN TIME” · “≈ 8 min” · “fastest run, with --fast” · “Fast ≈ 8 min”, “Quick 10–12 min”, “Full 20–30 min” · “estimates from the README”',
+    flow: 'Camera pan: the whole stage slides out left and the run-time card slides in from the right, keeping the same space. The minutes count 0 → 8 while the three range bars grow. The 8 lands with a bloom flash and two shock rings (15.8 s). This is the emphasis move.',
+    sound: 'pan whoosh; a tick per minute, slowing as the count settles; soft sweeps as bars grow; low riser into the biggest hit: sub drop + thud + shimmer on “8”.' },
+  { t: 19.0, n: 7, name: 'Takeaway', span: '16.9 – 20.0 s (held ≈ 1.8 s)',
+    text: '“≈ 8 min” card at top · “Messy files → clean report”',
+    flow: 'Continuous pull-back: the chart fades and the card narrows to just the number and rises to the top. A file tile and a report tile pop in, a glowing connector links them, and the takeaway rises word by word with an underline sweep. Holds to the end.',
+    sound: 'whoosh, two glass pops for the tiles, then the pad resolves to A major with a warm chord under the takeaway; soft shimmer on the underline.' },
+];
+const grid = document.getElementById('grid');
+const cards = BEATS.map((b) => {
+  const el = document.createElement('article'); el.className = 'beat';
+  const cut = /Camera (move|pan)/.test(b.flow);
+  el.innerHTML = `<canvas width="1280" height="720" aria-label="Key frame for beat ${b.n}"></canvas>
+    <div class="spec"><div class="top"><span class="num">${b.n}</span><span class="name">${b.name}</span><span class="time">${b.span} · frame @ ${b.t.toFixed(2)} s</span></div>
+    <dl><div><dt>On-screen text</dt><dd>${b.text}</dd></div>
+    <div class="${cut ? 'flow-cut' : ''}"><dt>${cut ? 'Transition' : 'From the previous beat'}</dt><dd>${b.flow}</dd></div>
+    <div><dt>Key sounds</dt><dd>${b.sound}</dd></div></dl></div>`;
+  grid.appendChild(el); return { el, b };
+});
+(async () => {
+  try { for (const f of EXPLAINER_FONTS) await document.fonts.load(f, 'AaZz09≈→·’'); await document.fonts.ready; } catch (e) {}
+  for (const { el, b } of cards) {
+    const cv = el.querySelector('canvas'), ctx = cv.getContext('2d');
+    explainer(ctx, 1280, 720, b.t);
+    await new Promise((r) => setTimeout(r, 0));
+  }
+})();
+</script>
