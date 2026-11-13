@@ -1107,12 +1107,13 @@
       const stepsA = eo(X.stepsIn[0], X.stepsIn[1], t) * (1 - eo(X.morph[0] - 0.05, X.morph[0] + 0.3, t));
       cleanScene(ctx, t, rect, 1 - eo(X.morph[0], X.morph[0] + 0.25, t), stepsA, 120 * eio(X.morph[0] - 0.05, X.morph[0] + 0.35, t));
       // fact text sits on top of the morphed card
-      if (t > X.morph[1] - 0.2) {
-        const fa = eo(X.morph[1] - 0.15, X.morph[1] + 0.25, t);
+      if (t > X.morph[0] + 0.2) {
+        const fa = eo(X.morph[0] + 0.2, X.morph[1] + 0.05, t);
         ctx.save(); ctx.globalAlpha *= fa;
-        gtext(ctx, 'Sales', FACT.x + FACT.w / 2, FACT.y + 66, 46, { align: 'center' });
+        const fx = rect.x + rect.w / 2, fy = rect.y + rect.h / 2 - FACT.h / 2;
+        gtext(ctx, 'Sales', fx, fy + 66, 46, { align: 'center' });
         ctx.font = F(600, 28, UI); ctx.fillStyle = '#b8c0f0'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
-        ctx.fillText('fact table', FACT.x + FACT.w / 2, FACT.y + 106);
+        ctx.fillText('fact table', fx, fy + 106);
         ctx.restore();
       }
       // pulses from the steps that just switched on into the table

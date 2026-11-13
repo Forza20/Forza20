@@ -1,0 +1,73 @@
+<title>Pipeline Power BI Explainer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=block">
+<style>
+  /* Layout: full-window stage, 16:9 canvas letterboxed, slim control bar underneath. Single dark look. */
+  :root { --bg: #000; --bar: #0b0d2c; --line: rgba(130,150,255,0.25); --fg: #e8ecff; --muted: #9aa3d8; --accent: #3fe3ff; color-scheme: dark; }
+  html, body { height: 100%; background: var(--bg); color: var(--fg); }
+  body { margin: 0; display: flex; flex-direction: column; font: 500 14px/1 "Inter", system-ui, sans-serif; }
+  #stage { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  canvas { display: block; background: #03041a; }
+  .bar { display: flex; align-items: center; gap: 12px; padding-block: 10px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: var(--bar); border-top: 1px solid var(--line); }
+  button { background: transparent; border: 1px solid var(--line); color: var(--fg); border-radius: 999px; height: 34px; min-width: 34px; padding: 0 12px; font: inherit; cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  button[aria-pressed="true"] { border-color: var(--accent); color: var(--accent); }
+  input[type=range] { flex: 1; min-width: 60px; accent-color: var(--accent); }
+  #time { font-variant-numeric: tabular-nums; color: var(--muted); min-width: 92px; text-align: right; }
+</style>
+<div id="stage"><canvas id="cv" width="1280" height="720" aria-label="Animated explainer: pipeline-power-bi"></canvas></div>
+<div class="bar">
+  <button id="play" aria-label="Play">▶</button>
+  <input id="scrub" type="range" min="0" max="20" step="0.01" value="0" aria-label="Seek">
+  <span id="time">0.00 / 20.00</span>
+  <button id="snd" aria-pressed="true" title="Sound on/off">Sound</button>
+  <button id="loop" aria-pressed="true" title="Loop on/off">Loop</button>
+</div>
+<script>/*@@LIBS@@*/</script>
+<script>
+(function () {
+  const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+  const playB = document.getElementById('play'), scrub = document.getElementById('scrub'), timeL = document.getElementById('time');
+  const sndB = document.getElementById('snd'), loopB = document.getElementById('loop'), stage = document.getElementById('stage');
+  const D = window.DURATION; scrub.max = D;
+  let T = 0, playing = false, soundOn = true, loop = true, t0 = 0, raf = 0, stopSound = null, fontsReady = false;
+
+  function fit() {
+    const w = stage.clientWidth, h = stage.clientHeight, s = Math.min(w / 1280, h / 720);
+    cv.style.width = Math.floor(1280 * s) + 'px'; cv.style.height = Math.floor(720 * s) + 'px';
+    const dpr = Math.min(2, window.devicePixelRatio || 1), pw = Math.round(1280 * Math.min(1.5, s * dpr)), ph = Math.round(pw * 9 / 16);
+    if (cv.width !== pw) { cv.width = pw; cv.height = ph; draw(T); }
+  }
+  function draw(t) {
+    ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.save(); ctx.scale(cv.width / 1280, cv.height / 720); explainer(ctx, 1280, 720, t); ctx.restore();
+  }
+  window.seek = (t) => { T = Math.max(0, Math.min(D, t)); draw(T); };
+  function ui() { scrub.value = T; timeL.textContent = T.toFixed(2) + ' / ' + D.toFixed(2); playB.textContent = playing ? '❚❚' : '▶'; playB.setAttribute('aria-label', playing ? 'Pause' : 'Play'); }
+  function killSound() { if (stopSound) { stopSound(); stopSound = null; } }
+  function startSound() { killSound(); if (soundOn && playing) stopSound = SOUND.live(window.scoreSound, T, { voiceover: false }); }
+  function frame(now) {
+    if (!playing) return;
+    T = (now - t0) / 1000;
+    if (T >= D) {
+      if (loop) { T = 0; t0 = now; startSound(); } else { T = D; playing = false; killSound(); }
+    }
+    draw(T); ui();
+    if (playing) raf = requestAnimationFrame(frame);
+  }
+  function play() { if (!fontsReady) return; if (T >= D) T = 0; playing = true; t0 = performance.now() - T * 1000; startSound(); cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); ui(); }
+  function pause() { playing = false; cancelAnimationFrame(raf); killSound(); ui(); }
+  playB.onclick = () => (playing ? pause() : play());
+  scrub.oninput = () => { const was = playing; if (was) { playing = false; cancelAnimationFrame(raf); } killSound(); seek(+scrub.value); ui(); if (was) play(); };
+  sndB.onclick = () => { soundOn = !soundOn; sndB.setAttribute('aria-pressed', soundOn); if (!soundOn) killSound(); else startSound(); };
+  loopB.onclick = () => { loop = !loop; loopB.setAttribute('aria-pressed', loop); };
+  document.addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target.tagName !== 'BUTTON') { e.preventDefault(); playing ? pause() : play(); } });
+  window.addEventListener('resize', fit);
+  window.ready = (async () => {
+    try { for (const f of EXPLAINER_FONTS) await document.fonts.load(f, 'AaZz09≈→·’'); await document.fonts.ready; } catch (e) {}
+    fontsReady = true; fit(); seek(6.95); ui();
+  })();
+})();
+</script>
